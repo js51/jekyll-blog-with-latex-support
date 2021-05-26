@@ -1,0 +1,17 @@
+---
+layout: default
+---
+
+<div class="home"> 
+  <div>
+    <div class="clearfix">
+      <div id="post-list" class="post-list">
+        {% assign sorted = site.posts | sort:"date" %}
+        {% for post in sorted %}
+        <a class="post" href="{{ post.url | prepend: site.baseurl }}">
+          <h3>{{ post.title }}</h3>
+        </a>
+        {% endfor %}
+      </div>
+  </div>
+</div>

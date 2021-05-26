@@ -1,0 +1,79 @@
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>{% if page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %}</title>
+  <meta name="description" content="{% if page.excerpt %}{{ page.excerpt | strip_html | strip_newlines | truncate: 160 }}{% else %}{{ site.description }}{% endif %}">
+
+  <!-- <link href="{{ "/css/bass.css" | prepend: site.baseurl }}" rel="stylesheet"> -->
+  <!-- <link rel="stylesheet" href="{{ "/css/main.css" | prepend: site.baseurl }}"> -->
+  <link rel="stylesheet" href="/css/main.css">
+
+  <link rel="canonical" href="{{ page.url | replace:'index.html','' | prepend: site.baseurl }}">
+  <link rel="alternate" type="application/rss+xml" title="{{ site.title }}" href="{{ '/feed.xml' | prepend: site.baseurl }}" />
+  <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+  <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.4/hammer.min.js"></script>
+  
+  <link rel="apple-touch-icon" sizes="180x180" href="{{ site.baseurl }}/icons/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="{{ site.baseurl }}/icons/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="{{ site.baseurl }}/icons/favicon-16x16.png">
+  <link rel="manifest" href="{{ site.baseurl }}/manifest.json">
+  <link rel="mask-icon" href="{{ site.baseurl }}/icons/safari-pinned-tab.svg" color="#007fff">
+  <link rel="shortcut icon" href="{{ site.baseurl }}/icons/favicon.ico">
+  <meta name="msapplication-TileColor" content="#007fff">
+  <meta name="msapplication-config" content="{{ site.baseurl }}/icons/browserconfig.xml">
+  <meta name="theme-color" content="#007fff">
+
+  <script>
+    if ("serviceWorker" in navigator) {
+    if (navigator.serviceWorker.controller) {
+      console.log("An active service worker found, no need to register");
+    } else {
+      // Register the service worker
+      navigator.serviceWorker
+        .register("{{ site.baseurl }}/serviceworker.js", {
+          scope: "./"
+        })
+        .then(function (reg) {
+          console.log("Service worker has been registered for scope: " + reg.scope);
+        });
+    }
+  }
+  </script>
+  
+  <!-- Everything below here is for LaTeX support -->
+  <!-- KaTeX -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/katex.min.css"
+    integrity="sha384-yFRtMMDnQtDRO8rLpMIKrtPCD5jdktao2TV19YiZYWMDkUR5GQZR/NOVTdquEx1j" crossorigin="anonymous" />
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/katex.min.js"
+    integrity="sha384-9Nhn55MVVN0/4OFx7EE5kpFBPsEMZxKTCnA+4fqDmg12eCTqGi6+BB2LjY8brQxJ" crossorigin="anonymous"></script>
+  <!-- KaTeX auto-render extention: https://katex.org/docs/autorender.html -->
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/contrib/auto-render.min.js"
+    integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"></script>
+  <script>
+    var macros = {
+      "\\P": "\\mathbb{P}"
+    }, delimiters = [
+      { left: "$$",  right: "$$",  display: true}, // Technically, this does not work. See below.
+      { left: "\\[", right: "\\]", display: true},
+      { left: "$",   right: "$",   display: false},
+      { left: "\\(", right: "\\)", display: false}
+    ];
+    document.addEventListener("DOMContentLoaded", function() {
+      renderMathInElement(document.body, { delimiters: delimiters, macros: macros });
+      // Currently GitHub pages overrides math-engine: mathjax in _config, hence $$..$$ are converted to to scripts tags.
+      // See: https://github.com/github/pages-gem/pull/545
+      document.querySelectorAll("script[type='math/tex']").forEach(function(el) {
+        el.outerHTML = katex.renderToString(el.textContent, { displayMode: false, macros: macros });
+      });
+      document.querySelectorAll("script[type='math/tex; mode=display']").forEach(function(el) {
+        el.outerHTML = katex.renderToString(el.textContent.replace(/%.*/g, ''), { displayMode: true, macros: macros });
+      });
+    });
+  </script>
+  <style>.katex { font-size: 1.15em; }</style>
+  <!-- KaTeX copy-tex extention: https://github.com/KaTeX/KaTeX/tree/master/contrib/copy-tex -->
+  <link href="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/contrib/copy-tex.css" rel="stylesheet" type="text/css" />
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/contrib/copy-tex.min.js" integrity="sha384-XhWAe6BtVcvEdS3FFKT7Mcft4HJjPqMQvi5V4YhzH9Qxw497jC13TupOEvjoIPy7" crossorigin="anonymous"></script>
+</head>

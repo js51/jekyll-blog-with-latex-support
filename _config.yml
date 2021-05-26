@@ -1,0 +1,16 @@
+# Site settings
+title: Blog Title (edit in _config.yml)
+email: your_email_here@example.com
+description: description
+baseurl: ""
+language: "en"
+lang_direction: "ltr"
+twitter_username:
+github_username:
+
+# Build settings
+markdown: kramdown
+
+permalink: /:title:output_ext
+
+exclude: ['Gemfile', 'Gemfile.lock', 'Rakefile', 'README.md']
